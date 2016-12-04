@@ -1,5 +1,3 @@
-
-
 function promiseDAG(callbacks, dag) {
     return new Promise((resolve, reject) => {
         var N = callbacks.length;
@@ -10,7 +8,6 @@ function promiseDAG(callbacks, dag) {
 
         function handleResolution(promise, i, value) {
             values[i] = value;
-            console.log(i, "resolved", value);
             if(stopped) {
                 return;
             }
@@ -29,8 +26,7 @@ function promiseDAG(callbacks, dag) {
                         for(let k=0; k<dag[j].length; ++k) {
                             args.push(values[dag[j][k]]);
                         }
-                        console.log("Starting", j, "with arguments", args);
-                        var promise = callbacks[j].apply(args);
+                        var promise = callbacks[j].apply(null, args);
                         promise.then(
                             (value) => { handleResolution(promise, j, value); },
                             (error) => { handleRejection(promise, j, error); });
@@ -40,7 +36,7 @@ function promiseDAG(callbacks, dag) {
         }
 
         function handleRejection(promise, i, error) {
-            console.log("Promise " + i +" rejected.");
+            //console.log("Promise " + i +" rejected.");
             stopped = true;
             reject(error);
         }
