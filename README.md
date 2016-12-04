@@ -8,3 +8,7 @@ This project offers a more powerful version that roughly speaking allows one to 
 - dependencies between them,
 
 and create a single promise that resolves when the entire network of promises has been resolved.
+
+## License
+
+This project is released under the LGPL-3.0.
