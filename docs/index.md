@@ -1,3 +1,8 @@
+---
+title: promiseDAG
+---
+
+
 # promiseDAG
 
 The `promiseDAG()` function makes it easier to work with JavaScript's promises.
