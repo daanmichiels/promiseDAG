@@ -2,105 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>promiseDAG</title>
-    <script src="../promiseDAG.js"></script>
-    <script src="promiseExamples.js"></script>
-    <script>
-        function getCenter(element) {
-            var rect = element.getBoundingClientRect();
-            var scrollLeft = window.pageXOffset;
-            var scrollTop = window.pageYOffset;
-            return {
-                x: rect.left + scrollLeft + rect.width/2,
-                y: rect.top + scrollTop + rect.height/2
-            };
-        }
-        function createCanvas(width, height, containerId) {
-            var canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            canvas.setAttribute('width', '75em');
-            canvas.setAttribute('height', '40em');
-            document.body.appendChild(canvas);    
-            return canvas;
-        }
-        function drawConnection(canvas, from, to) {
-            var c1 = getCenter(from);
-            var c2 = getCenter(to);
-            var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('x1', c1.x - canvas.getBoundingClientRect().left);
-            line.setAttribute('y1', c1.y - canvas.getBoundingClientRect().top);
-            line.setAttribute('x2', c2.x - canvas.getBoundingClientRect().left);
-            line.setAttribute('y2', c2.y - canvas.getBoundingClientRect().top);
-            line.setAttribute('stroke', "black");
-            line.setAttribute('stroke-width', "0.1em");
-            canvas.appendChild(line);
-            return line;
-        }
-        function start() {
-            var zero = document.getElementById("zero");
-            var one = document.getElementById("one");
-            var two = document.getElementById("two");
-            var three = document.getElementById("three");
-            var four = document.getElementById("four");
-            var five = document.getElementById("five");
-            var six = document.getElementById("six");
-            var seven = document.getElementById("seven");
-
-            var canvas = createCanvas();
-            drawConnection(canvas, zero, two);
-            drawConnection(canvas, one, two);
-            drawConnection(canvas, two, three);
-            drawConnection(canvas, two, four);
-            drawConnection(canvas, one, four);
-            drawConnection(canvas, three, five);
-            drawConnection(canvas, four, five);
-            drawConnection(canvas, four, six);
-            drawConnection(canvas, three, seven);
-            drawConnection(canvas, four, seven);
-
-            callbacks = [
-                () => {return sleep(zero, 1, 2000 * Math.random());},
-                () => {return worker(one);},
-                () => {return ajax(two, "assets/music-choice.txt");},
-                () => {return confirm(three); },
-                (url) => {return music(four, url);},
-                () => {return sleep(five, 0.9, 3000 * Math.random());},
-                () => {return sleep(six, 1, 2000 * Math.random());},
-                () => {return sleep(seven, 0.9, 3000 * Math.random());},
-            ];
-            document.getElementById('go').addEventListener('click', function() {
-                document.getElementById('go').style.visibility = 'hidden';
-                promiseDAG(callbacks, [[], [], [0, 1], [2], [2, 1], [3, 4], [4], [3, 4]]).then(
-                    (values) => { console.log('Succes!', values); },
-                    (error) => { console.log('Fail...', error); }
-                    );
-            });
-        }
-        document.addEventListener("DOMContentLoaded", start);
-    </script>
-    <style>
-        #dag div {
-            border-radius: 0.5em;
-            background-color: #00f;
-            text-align: center;
-            color: #fff;
-            vertical-align: middle;
-            padding: 0.5em;
-            text-shadow: 0px 0px 0.3em black;
-            box-shadow: 0px 0px 0.3em black;
-        }
-        audio, button {
-            margin: 0.5em;
-        }
-        #dag div.pending {
-            background-color: #ff0;
-        }
-        #dag div.resolved {
-            background-color: #0a0;
-        }
-        #dag div.rejected {
-            background-color: #f00;
-        }
-    </style>
+    <title>promiseDAG demo</title>
+    <script src="../../promiseDAG.js"></script>
+    <script src="demo.js"></script>
 </head>
 <body>
     <h1>
@@ -109,60 +13,60 @@
     <p>
         This webpage demonstrates the use of promiseDAG visually.
         Below you'll find a directed acyclic graph (DAG).
-        Each of the nodes represents a promise in the JavaScript sense.
+        Each of the nodes represents an asynchronous task that needs to be completed.
+        The lines between tasks indicate interdependencies.
+    </p>
+    <p>
+        Please look at the source of this page to see the code.
+    </p>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <div id="dag">
+        </div>
+        <p style="display: block; text-align: center; width: 36em;">
+            The promise <span id="status" style="font-weight: bold;">has not been created yet</span>.
+        </p>
+    </div>
+
+    <h2>What you're seeing</h2>
+    <p>
+        This demo page uses <code>promiseDAG()</code> to run 10 interdependent tasks
+        as efficiently as possible.<br>
+        Each of the nodes in the diagram above represents a task.
     </p>
     <ul>
-        <li>
-            <em>Wait a bit</em>: these nodes just asynchronously sleep for a couple of seconds
-            and then resolve
-        </li>
-        <li>
-            <em>Wait and maybe fail</em>: these nodes asynchronously wait, and then resolve (90% chance) or reject (10% chance)
-        </li>
-        <li>
-            <em>Load choice of music</em>: loads the file assets/music-choice.txt using an XMLHttpRequest
-        </li>
-        <li>
-            <em>Continue?</em>: resolves if the user clicks "Yes", rejects if the user clicks "No"
-        </li>
-        <li>
-            <em>Buffer music</em>: uses the url loaded by "Load choice of music" to load audio,
-            and resolves when enough is buffered for playback (rejects if there's an error loading)
-        </li>
+        <li>A blue node is a task that has not been started yet.</li>
+        <li>A yellow node represents a task that is pending.</li>
+        <li>A green node represents a task that was completed successfully (the promise was resolved).</li>
+        <li>A red node represents a task that failed (the promise was rejected).</li>
     </ul>
     <p>
-        The music used here was composed by Antonio Vivaldi and performed by
-        John Harrison, Robert Turizziani and the WSU Chamber Players.
-        It is licensed under the <a href="http://creativecommons.org/licenses/by-sa/1.0/deed.en">CC BY-SA 1.0</a>.
+        The asynchronous tasks in this demo just consist of waiting,
+        and then either succeeding (resolving the promise) or failing (rejecting the promise).
+        The wait is a uniformly chosen timespan between 0 and 4 seconds.
+        The probability of success of each node is about 93% (to make the chances of the entire
+        network succeeding about 50%).
     </p>
     <p>
-        You can start the DAG by clicking this button: <button id="go">Go!</button>
+        The <code>promiseDAG()</code> function returns a promise.
+        The status of this promise is displayed just below the diagram.
     </p>
-    <div id="dag" style="position: relative;">
-        <div id="zero" style="position: absolute; left: 1em; top: 1em;">
-            Wait a bit
-        </div>
-        <div id="one" style="position: absolute; left: 1em; top: 11em;">
-            Web worker
-        </div>
-        <div id="two" style="position: absolute; left: 11em; top: 7em;">
-            Load choice of music
-        </div>
-        <div id="three" style="position: absolute; left: 25em; top: 1em;">
-            Continue?
-        </div>
-        <div id="four" style="position: absolute; left: 21em; top: 14em;">
-            Buffer music
-        </div>
-        <div id="five" style="position: absolute; left: 48em; top: 1em;">
-            Wait and maybe fail
-        </div>
-        <div id="six" style="position: absolute; left: 51em; top: 11em;">
-            Wait a bit
-        </div>
-        <div id="seven" style="position: absolute; left: 51em; top: 21em;">
-            Wait and maybe fail
-        </div>
-    </div>
+
+    <h2>Things to note</h2>
+    <p>
+        Note that the order of execution of the tasks is not fixed.
+        Which tasks get started when is determined by how fast the dependencies get resolved.
+        Sometimes a task in the third column is already finished when a task in the first is still pending.
+    </p>
+    <p>
+        Once a task fails, the promise returned by <code>promiseDAG()</code> is rejected and
+        no further tasks are started.
+    </p>
+    <p>
+        An naive alternative to using <code>promiseDAG()</code> is to topologically sort
+        the dependency graph, and then complete the tasks sequentially. Because there are 10 tasks
+        in this demo, each with average duration 2 seconds, this would take 20 seconds on average
+        to complete all the tasks.
+        Using <code>promiseDAG()</code>, the tasks get completed much quicker.
+    </p>
 </body>
 </html>
