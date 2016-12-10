@@ -14,7 +14,7 @@ and create a single promise that resolves when the entire network of promises ha
 The project's code is a single function (`promiseDAG`) in a single file (`promiseDAG.js`).
 Just add this file to your JavaScript project, and call the `promiseDAG` function.
 
-An illustrated explanation of what `promiseDAG` does can be found in [documentation.md](documentation.md).
+An illustrated explanation of what `promiseDAG` does can be found in [docs/documentation.md](docs/documentation.md).
 
 ## License
 
