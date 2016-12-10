@@ -15,7 +15,8 @@ The project's code is a single function (`promiseDAG`) in a single file (`promis
 Just add this file to your JavaScript project, and call the `promiseDAG` function.
 
 An illustrated explanation of what `promiseDAG` does can be found at [http://www.daanmichiels.com/promiseDAG/](http://www.daanmichiels.com/promiseDAG/).
-You can see a demo at [http://www.daanmichiels.com/promiseDAG/demo/](http://www.daanmichiels.com/promiseDAG/demo/)
+
+You can see a demo at [http://www.daanmichiels.com/promiseDAG/demo/](http://www.daanmichiels.com/promiseDAG/demo/).
 
 ## License
 
