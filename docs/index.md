@@ -5,6 +5,8 @@ It is a generalization of <code>Promise.all</code> to directed acyclic graphcs (
 The project is <a href="https://github.com/daanmichiels/promiseDAG">hosted on GitHub</a>.
 You can see it in action on the <a href="demo/">demo page</a>.
 
+This page tries to explain what the `promiseDAG()` function does.
+
 
 ## Promises in JavaScript
 
