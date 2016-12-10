@@ -1,8 +1,8 @@
 # promiseDAG
 
 The `promiseDAG()` function makes it easier to work with JavaScript's promises.
-It is a generalization of <code>Promise.all</code> to directed acyclic graphcs (DAG's).
-The project is <a href="https://github.com/daanmichiels/promiseDAG">hosted on GitHub</a>.
+It is a generalization of `Promise.all` to directed acyclic graphcs (DAG's).
+The project is [hosted on GitHub](https://github.com/daanmichiels/promiseDAG).
 You can see it in action on the <a href="demo/">demo page</a>.
 
 This page tries to explain what the `promiseDAG()` function does.
