@@ -1,26 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>promiseDAG demo</title>
-    <script src="promiseDAG.js"></script>
-    <script src="demo.js"></script>
-    <style>
-        body {
-            font-family: "Segoe UI", Helvetica, sans-serif;
-        }
-        div#wrapper {
-            margin: 0 auto;
-            max-width: 60em;
-            padding: 0 0.6em;
-        }
-    </style>
-</head>
-<body>
-    <div id="wrapper">
+---
+title: promiseDAG demo
+layout: default
+custom_js:
+- demo.js
+- promiseDAG.js
+---
+
     <h1>
         promiseDAG demo
     </h1>
+
     <p>
         This webpage demonstrates the use of promiseDAG visually.
         Below you'll find a directed acyclic graph (DAG).
@@ -29,6 +18,7 @@
     </p>
     <p>
         Please look at the source of this page to see the code.
+        Refresh the page to restart the demo.
     </p>
     <div style="display: flex; flex-direction: column; align-items: center;">
         <div id="dag">
@@ -79,6 +69,4 @@
         to complete all the tasks.
         Using <code>promiseDAG()</code>, the tasks get completed much quicker.
     </p>
-    </div>
-</body>
-</html>
+
