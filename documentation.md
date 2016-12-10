@@ -28,7 +28,7 @@ with the output of one being fed as input to the next, `Promise.prototype.then()
 
 In the following snippet, three promises are chained (each just sleeps for a little while).
 
-~~~~
+````JavaScript
 // promise that resolves after t milliseconds
 // with no value
 function sleep(t) {
@@ -44,7 +44,7 @@ sleep(3000)
 .then((value) => { return sleep(2000); })
 .then((value) => { return sleep(1000); })
 .then((value) => { console.log("done!"); });
-~~~~
+````
 
 In other words, `Promise.prototype.then()` is suited for this kind of situation (time in the diagram goes from left to right):
 
@@ -63,7 +63,7 @@ The constructed promise satisfies the following properties:
 
 In the following snippet, three promises are started at the same time.
 
-~~~~
+````JavaScript
 // promise that resolves after t milliseconds
 // with no value
 function sleep(t) {
@@ -77,7 +77,7 @@ function sleep(t) {
 
 Promise.all([sleep(3000), sleep(2000), sleep(1000)])
 .then((value) => { console.log("done!"); });
-~~~~
+````
 
 In other words, `Promise.all()` is suited for this kind of situation (all the tasks are started at the same time):
 
@@ -106,7 +106,7 @@ The tasks are
 
 The snippet shows the code to run these tasks in the correct order, efficiently.
 
-~~~~
+````JavaScript
 // each of these should return a promise that executes the task
 function task0() {
 	return ...
@@ -125,7 +125,7 @@ function task4(value2) {
 }
 
 var p = promiseDAG([task0, task1, task2, task3, task4], [[], [0], [0], [1,2], [2]]);
-~~~~
+````
 
 When this code is run, the following happens:
 
@@ -211,7 +211,7 @@ executed efficiently.
 Note that the `async` keyword was used twice, in order to not have to construct
 promises explicitly.
 
-~~~~
+````JavaScript
 function login() {
 	return ... // a promise that resolves to the username on successful login
 }
@@ -260,4 +260,4 @@ promiseDAG([login,         // 0
             [3,2], // match order of arguments
             ]);
 
-~~~~
+````
