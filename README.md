@@ -18,6 +18,10 @@ An illustrated explanation of what `promiseDAG` does can be found at [http://www
 
 You can see a demo at [http://www.daanmichiels.com/promiseDAG/demo/](http://www.daanmichiels.com/promiseDAG/demo/).
 
+## Read more
+
+At some point, I wrote up a short article about `promiseDAG` at The Code Project. You can find it [here](https://www.codeproject.com/Articles/1173027/Flexible-scheduling-of-JavaScript-promises).
+
 ## License
 
 This project is released under the LGPL-3.0.
